@@ -211,7 +211,14 @@ function library() {
   return `<div class="section"><h1>📚 Phrasal Verb Library</h1><p>Browse by level, category or search.</p></div>
     <div class="toolbar"><input class="input search" id="search" placeholder="Search..."><div class="filters">
     <button class="filter active" data-filter="all">All</button><button class="filter" data-filter="A2">A2</button><button class="filter" data-filter="B1">B1</button><button class="filter" data-filter="B2">B2</button></div></div>
-    <div class="grid g3" id="cards">${verbs.map(card).join("")}</div>`;
+    <div class="grid g3" id="cards">${verbs.map(libraryCard).join("")}</div>`;
+}
+
+function libraryCard(v) {
+  const learned = state.learned.includes(v.verb);
+  const missed = state.missed.includes(v.verb);
+  return `<article class="card library"><span class="pill">${esc(v.level)}</span><span class="status">${learned ? "🟢" : missed ? "🟡" : "⚪"}</span>
+    <h3>${esc(v.verb)}</h3><p><strong>${esc(v.meaning)}</strong></p><p class="muted">${esc(v.context)}</p><p class="tag">${esc(v.category)}</p></article>`;
 }
 
 function card(v) {
@@ -366,7 +373,7 @@ function filterLibrary() {
     const textOk = [v.verb,v.meaning,v.category,v.context].join(" ").toLowerCase().includes(term);
     return levelOk && textOk;
   });
-  $("#cards").innerHTML = results.length ? results.map(card).join("") : `<div class="card"><p class="muted">Nothing found.</p></div>`;
+  $("#cards").innerHTML = results.length ? results.map(libraryCard).join("") : `<div class="card"><p class="muted">Nothing found.</p></div>`;
 }
 
 // One delegated click handler keeps every dynamically-rendered control working.
