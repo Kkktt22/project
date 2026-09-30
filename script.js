@@ -4,7 +4,7 @@ import { cinema, fill } from "./data/questions.js";
 const app = document.querySelector("#app");
 const nav = document.querySelector("#nav");
 const menuBtn = document.querySelector("#menuBtn");
-const KEY = "lingua_v1";
+const KEY = "lingua_v2";
 const today = new Date().toISOString().slice(0, 10);
 
 const defaultState = () => ({
@@ -277,9 +277,30 @@ function start(mode, source = null) {
 }
 
 function startForVerb(verb) {
-  const q = cinema.find((item) => item.verb === verb);
-  if (!q) return;
-  session = { mode: "choose", items: [normalizeCinema(q)], i: 0, score: 0, done: false };
+  const v = verbs.find((item) => item.verb === verb);
+  if (!v) return;
+
+  const cinemaQuestion = cinema.find((item) => item.verb === verb);
+  let q;
+
+  if (cinemaQuestion) {
+    q = normalizeCinema(cinemaQuestion);
+  } else {
+    const distractors = shuffle(verbs.filter((item) => item.verb !== verb))
+      .slice(0, 3)
+      .map((item) => item.verb);
+    q = {
+      type: "choose",
+      verb: v.verb,
+      answer: v.verb,
+      options: shuffle([v.verb, ...distractors]),
+      sentence: v.example,
+      source: "Lingua Library",
+      explanation: v.context
+    };
+  }
+
+  session = { mode: "choose", items: [q], i: 0, score: 0, done: false };
   sessionSource = "verb";
   answeredCurrent = false;
   page = "practice";
@@ -348,12 +369,27 @@ function filterLibrary() {
   $("#cards").innerHTML = results.length ? results.map(card).join("") : `<div class="card"><p class="muted">Nothing found.</p></div>`;
 }
 
-// One delegated click handler keeps dynamically-created buttons working after every render.
+// One delegated click handler keeps every dynamically-rendered control working.
 app.addEventListener("click", (event) => {
+  const option = event.target.closest(".option");
+  if (option) {
+    answerChoice(option.dataset.answer);
+    return;
+  }
+
+  const filterButton = event.target.closest(".filter");
+  if (filterButton) {
+    document.querySelectorAll(".filter").forEach((item) => item.classList.remove("active"));
+    filterButton.classList.add("active");
+    filterLibrary();
+    return;
+  }
+
   const button = event.target.closest("button");
   if (!button) return;
   const action = button.dataset.action;
   if (!action) return;
+
   if (action === "go") go(button.dataset.page);
   else if (action === "start") start(button.dataset.mode);
   else if (action === "daily") start("mixed", "daily");
@@ -362,19 +398,33 @@ app.addEventListener("click", (event) => {
   else if (action === "mark-learned") {
     const verb = verbs[learnIndex].verb;
     if (!state.learned.includes(verb)) state.learned.push(verb);
-    checkAchievements(); save(); render();
+    checkAchievements();
+    save();
+    render();
   } else if (action === "next") {
-    learnIndex = (learnIndex + 1) % verbs.length; render();
+    learnIndex = (learnIndex + 1) % verbs.length;
+    render();
   } else if (action === "prev") {
-    learnIndex = (learnIndex - 1 + verbs.length) % verbs.length; render();
+    learnIndex = (learnIndex - 1 + verbs.length) % verbs.length;
+    render();
   } else if (action === "next-question") finishQuestion();
-  else if (action === "exit") { session = null; sessionSource = null; answeredCurrent = false; render(); }
-  else if (action === "check-fill") checkFill();
+  else if (action === "exit") {
+    session = null;
+    sessionSource = null;
+    answeredCurrent = false;
+    render();
+  } else if (action === "check-fill") checkFill();
   else if (action === "again") start(session.mode, sessionSource);
   else if (action === "reset") {
-    if (confirm("Reset all progress?")) { state = defaultState(); save(); session = null; sessionSource = null; answeredCurrent = false; render(); }
+    if (confirm("Reset all progress?")) {
+      state = defaultState();
+      save();
+      session = null;
+      sessionSource = null;
+      answeredCurrent = false;
+      render();
+    }
   }
-  else if (button.classList.contains("option")) answerChoice(button.dataset.answer);
 });
 
 app.addEventListener("keydown", (event) => {
@@ -383,14 +433,6 @@ app.addEventListener("keydown", (event) => {
 
 app.addEventListener("input", (event) => {
   if (event.target.id === "search") filterLibrary();
-});
-
-app.addEventListener("click", (event) => {
-  const filterButton = event.target.closest(".filter");
-  if (!filterButton) return;
-  document.querySelectorAll(".filter").forEach((item) => item.classList.remove("active"));
-  filterButton.classList.add("active");
-  filterLibrary();
 });
 
 menuBtn?.addEventListener("click", () => nav?.classList.toggle("open"));
