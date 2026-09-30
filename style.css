@@ -30,7 +30,6 @@ main{max-width:1120px;margin:auto;padding:36px 20px 80px}.page{animation:in .22s
 .lesson{max-width:760px;margin:auto}.verb{font-size:43px;line-height:1.1;margin:7px 0}.meaning{color:var(--blue);font-size:19px;font-weight:700}
 .example{background:#f7fbff;border-left:4px solid var(--blue);padding:17px 18px;border-radius:0 12px 12px 0;margin:18px 0;font-size:18px}
 .context{background:#f8fafc;border:1px solid var(--line);padding:16px;border-radius:13px}
-.audio{border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:10px;color:var(--blue);font-weight:700}
 .progressline{height:8px;background:#e5eaf0;border-radius:99px;overflow:hidden}.progressline span{height:100%;display:block;background:var(--blue)}
 .option{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px 15px;margin:8px 0}.option:hover:not(:disabled){border-color:var(--blue);background:#f7fbff}.option.correct{border-color:var(--green);background:var(--greenbg);color:#276749}.option.wrong{border-color:var(--red);background:var(--redbg);color:#c53030}
 .feedback{margin-top:15px;padding:15px;border:1px solid var(--line);border-radius:13px;background:#f8fafc}

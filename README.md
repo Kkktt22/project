@@ -1,6 +1,6 @@
-# 🎬 CinemaLingua
+# 🎬 Lingua
 
-**CinemaLingua** is an interactive educational web application for learning English phrasal verbs through context, cinema-inspired situations and active practice.
+**Lingua** is an interactive educational web application for learning English phrasal verbs through context, film- and series-inspired situations and active practice.
 
 ## What makes the product educational?
 
@@ -8,7 +8,7 @@ The learning flow is:
 
 **Context → Meaning → Recall → Practice → Review**
 
-Instead of only memorizing translations, learners meet a phrasal verb in a meaningful situation, hear an example, practise recognition and recall, and return to expressions they found difficult.
+Instead of only memorizing translations, learners meet a phrasal verb in a meaningful situation, practise recognition and recall, and return to expressions they found difficult.
 
 ## Features
 
@@ -20,7 +20,6 @@ Instead of only memorizing translations, learners meet a phrasal verb in a meani
 - 🧠 Meaning and context challenges
 - 🔁 Review mode for missed expressions
 - 🎲 Mixed practice
-- 🔊 Browser text-to-speech examples
 - 📅 Daily challenge
 - 🏆 Achievements
 - 📈 Progress dashboard
@@ -36,14 +35,14 @@ Because the project uses JavaScript ES modules, open it through a local server.
 ### VS Code
 
 1. Install VS Code.
-2. Open the `CinemaLingua` folder.
+2. Open the `Lingua` folder.
 3. Install the **Live Server** extension.
 4. Right-click `index.html`.
 5. Select **Open with Live Server**.
 
 ## Publish on GitHub Pages
 
-1. Create a repository on GitHub, for example `cinemalingua`.
+1. Create a repository on GitHub, for example `lingua`.
 2. Upload all project files, keeping the `data` folder.
 3. Open **Settings → Pages**.
 4. Under **Build and deployment**, choose **Deploy from a branch**.
@@ -54,7 +53,7 @@ Because the project uses JavaScript ES modules, open it through a local server.
 ## Project structure
 
 ```text
-CinemaLingua/
+Lingua/
 ├── index.html
 ├── style.css
 ├── script.js
